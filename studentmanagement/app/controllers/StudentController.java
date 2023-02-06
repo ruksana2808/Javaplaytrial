@@ -94,11 +94,13 @@ public class StudentController extends Controller {
             String phoneNum = resultSet.getString("phoneNum");
             String email = resultSet.getString("email");
             String address = resultSet.getString("address");
+            String gender = resultSet.getString("gender");
             result.put("empId", empId);
             result.put("empName", empName);
             result.put("phoneNum",phoneNum);
             result.put("address",address);
             result.put("email",email);
+            result.put("gender",gender);
 
         }
 
