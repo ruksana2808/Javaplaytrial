@@ -14,3 +14,4 @@ POST    /addStudent                 controllers.StudentController.addStudent(req
 #GET    /getStudent/:id               controllers.StudentController.getStudent(id:Int)
 #GET    /fetchDataFromDatabase        controllers.StudentController.fetchDataFromDatabase()
 GET    /getEmployeebyId/:empId             controllers.StudentController.getEmployeebyId(empId:Integer)
+POST   /addEmployee                        controllers.StudentController.addEmployee(jsonData:String)

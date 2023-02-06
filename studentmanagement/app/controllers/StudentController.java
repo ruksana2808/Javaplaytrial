@@ -1,42 +1,17 @@
 package controllers;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import entities.Student;
-import org.apache.http.HttpHost;
-import org.elasticsearch.action.get.GetRequest;
-import org.elasticsearch.action.get.GetResponse;
-import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestClient;
-import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.common.xcontent.XContentType;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
 import service.StudentService;
-
 import javax.inject.Inject;
-import java.io.IOException;
 import java.sql.*;
-import java.util.HashMap;
-import java.util.Map;
-import play.db.Database;
-import javax.inject.Inject;
-
-import play.db.Database;
 
 public class StudentController extends Controller {
     private StudentService studentService;
@@ -105,6 +80,16 @@ public class StudentController extends Controller {
         }
 
         return ok(result);
+    }
+    public Result addEmployee(String jsonData) throws SQLException, JsonProcessingException {
+        Connection connection = db.getConnection();
+        ObjectMapper objectmapper = new ObjectMapper();
+        String jsonstr=objectmapper.writeValueAsString(jsonData);
+
+        PreparedStatement statement1 = connection.prepareStatement("insert into employee (empName,address,gender,email) values(?,?,?,?)");
+        statement1.setString(1,jsonstr);
+        statement1.executeUpdate();
+        return ok(jsonstr);
     }
 
 }
