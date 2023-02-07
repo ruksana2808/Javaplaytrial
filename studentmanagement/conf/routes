@@ -16,3 +16,7 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 GET    /getEmployeebyId/:empId             controllers.StudentController.getEmployeebyId(empId:Integer)
 #POST   /addEmployee                        controllers.StudentController.addEmployee(jsonData:String)
 POST   /addData                            controllers.StudentController.addData(request : Request)
+POST   /updateRecord                       controllers.StudentController.updateRecord(request : Request)
+DELETE    /deleteEmployee/:empId             controllers.StudentController.deleteEmployee(empId:Integer)
+POST    /api/elasticsearch/:index         controllers.EmployeeEsController.createIndex(index: String)
+POST    /addDocument/:employee/:id     controllers.EmployeeEsController.addDocument(request: Request, employee: String, id: String)

@@ -1,13 +1,8 @@
 package controllers;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import entities.Student;
+
 import play.mvc.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import play.libs.Json;
-import service.StudentService;
-import utils.ApplicationUtil;
+
 
 /**
  * This controller contains an action to handle HTTP requests
