@@ -1,26 +1,30 @@
 package controllers;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import entities.Student;
+import model.Employee;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
-import service.StudentService;
+import service.EmployeeService;
+
 import javax.inject.Inject;
 import java.sql.*;
 
 public class StudentController extends Controller {
-    private StudentService studentService;
+    private EmployeeService studentService;
     public final FormFactory formFactory;
+
     @Inject
-    public StudentController(StudentService studentService, FormFactory formFactory) {
+    public StudentController(EmployeeService studentService, FormFactory formFactory) {
         this.studentService = studentService;
         this.formFactory = formFactory;
     }
+
     @Inject
     play.api.db.Database db;
 
@@ -35,13 +39,13 @@ public class StudentController extends Controller {
 //    return statement;
 //}
 
-    public Result getStudent(int id){
-        return ok(studentService.getStudent(id).toString());
-    }
-    public Result addStudent(Http.Request student){
-        Form<Student> form = formFactory.form(Student.class).bindFromRequest(student);
-        return ok(studentService.addStudent(form.get()).toString());
-    }
+    //    public Result getStudent(int id){
+//        return ok(studentService.getStudent(id).toString());
+//    }
+//    public Result addStudent(Http.Request Employee){
+//        Form<model.Employee> form = formFactory.form(Employee.class).bindFromRequest(employee);
+//        return ok(studentService.addStudent(form.get()).toString());
+//    }
     public Result fetchDataFromDatabase() {
         try (Connection connection = db.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM employee");
@@ -57,13 +61,14 @@ public class StudentController extends Controller {
         }
         return ok("Successfully connected");
     }
-    public  Result getEmployeebyId(int empId) throws SQLException {
+
+    public Result getEmployeebyId(int empId) throws SQLException {
         Connection connection = db.getConnection();
         PreparedStatement statement = connection.prepareStatement("select * from employee where empId = ?");
-        statement.setInt(1,empId);
+        statement.setInt(1, empId);
         ResultSet resultSet = statement.executeQuery();
         ObjectNode result = Json.newObject();
-        while(resultSet.next()){
+        while (resultSet.next()) {
             int id = resultSet.getInt("empId");
             String empName = resultSet.getString("empName");
             String phoneNum = resultSet.getString("phoneNum");
@@ -72,24 +77,46 @@ public class StudentController extends Controller {
             String gender = resultSet.getString("gender");
             result.put("empId", empId);
             result.put("empName", empName);
-            result.put("phoneNum",phoneNum);
-            result.put("address",address);
-            result.put("email",email);
-            result.put("gender",gender);
+            result.put("phoneNum", phoneNum);
+            result.put("address", address);
+            result.put("email", email);
+            result.put("gender", gender);
 
         }
 
         return ok(result);
     }
-    public Result addEmployee(String jsonData) throws SQLException, JsonProcessingException {
-        Connection connection = db.getConnection();
-        ObjectMapper objectmapper = new ObjectMapper();
-        String jsonstr=objectmapper.writeValueAsString(jsonData);
 
-        PreparedStatement statement1 = connection.prepareStatement("insert into employee (empName,address,gender,email) values(?,?,?,?)");
-        statement1.setString(1,jsonstr);
-        statement1.executeUpdate();
-        return ok(jsonstr);
+    //    public Result addEmployee(Http.Request request) throws SQLException, JsonProcessingException {
+//        Connection connection = db.getConnection();
+//        PreparedStatement statement1 = connection.prepareStatement("insert into employee (empId,empName,address,gender,email) values(?,?,?,?,?)");
+//        statement1.setString(1,jsonData);
+//        statement1.executeUpdate();
+//        return ok(jsonData);
+//    }
+    public Result addData(Http.Request request) {
+        JsonNode json = request.body().asJson();
+        String name = json.get("empName").asText();
+
+        Connection conn = null;
+        try {
+            conn = db.getConnection();
+            String sql = "INSERT INTO employee (empName) VALUES (?)";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, name);
+            stmt.executeUpdate();
+            return ok("Data inserted successfully");
+        } catch (SQLException e) {
+            return internalServerError("Error inserting data: " + e.getMessage());
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+
+            }
+        }
     }
 
 }

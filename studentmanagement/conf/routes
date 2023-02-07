@@ -10,8 +10,9 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 
 # Student API
-POST    /addStudent                 controllers.StudentController.addStudent(request : Request)
+#POST    /addStudent                 controllers.StudentController.addStudent(request : Request)
 #GET    /getStudent/:id               controllers.StudentController.getStudent(id:Int)
 #GET    /fetchDataFromDatabase        controllers.StudentController.fetchDataFromDatabase()
 GET    /getEmployeebyId/:empId             controllers.StudentController.getEmployeebyId(empId:Integer)
-POST   /addEmployee                        controllers.StudentController.addEmployee(jsonData:String)
+#POST   /addEmployee                        controllers.StudentController.addEmployee(jsonData:String)
+POST   /addData                            controllers.StudentController.addData(request : Request)
