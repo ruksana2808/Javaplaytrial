@@ -8,11 +8,13 @@ import org.elasticsearch.client.RestClient;
 public class Global extends AbstractModule {
 
     @Provides
-    public void configure() {
+    public RestClient esClient() {
         RestClient restClient = RestClient.builder(
                 new HttpHost("localhost", 9200, "http")
         ).build();
-        System.out.println("Connected");
+        System.out.println("connected");
+        return restClient;
+
     }
 
 
