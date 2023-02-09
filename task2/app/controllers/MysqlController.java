@@ -65,7 +65,7 @@ public class MysqlController extends Controller {
 
         Connection conn = null;
         try {
-            String sql = "INSERT INTO student_details (name) VALUES (?)";
+            String sql = "INSERT INTO country (name) VALUES (?)";
             PreparedStatement stmt = mysqlClient.getConnection().prepareStatement(sql);
             stmt.setString(1, name);
             stmt.executeUpdate();
