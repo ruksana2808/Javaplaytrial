@@ -8,3 +8,10 @@ GET     /                           controllers.HomeController.index()
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 GET     /connection               controllers.EsController.connection()
+GET     /getData                  controllers.EsController.getData()
+#GET     /connectionSql              controllers.MysqlController.connectionSql()
+GET    /fetchData    controllers.MysqlController.fetchData
+POST   /addData                            controllers.MysqlController.addData(request : Request)
+#POST    /addDocument    controllers.EsController.addDocument(request: Request)
+#POST    /createDocument    controllers.EsController.createDocument(request : Request)
+GET     /getCountry         controllers.MysqlController.getCountry()
