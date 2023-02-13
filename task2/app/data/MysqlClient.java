@@ -1,8 +1,5 @@
 package data;
 
-import com.google.inject.Inject;
-import play.api.db.Database;
-
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +8,7 @@ import static play.mvc.Results.internalServerError;
 
 public class MysqlClient {
     private Connection connection;
-    Map<Integer, String> country = new HashMap<>();
+    Map<Integer, String> countryMap = new HashMap<>();
 
     //    @Inject
 //    Database db;
@@ -23,7 +20,7 @@ public class MysqlClient {
         while (resultSet.next()) {
             int id = resultSet.getInt("id");
             String name = resultSet.getString("name");
-            country.put(id, name);
+            countryMap.put(id, name);
 
             // process the result
         }
@@ -40,8 +37,8 @@ public class MysqlClient {
             return connection;
         }
 
-    public Map<Integer, String> getCountry() {
-        return country;
+    public Map<Integer, String> getCountryMap() {
+        return countryMap;
     }
 
 //    public Map<Integer, String> getCountryDetails(Connection connection) throws SQLException {

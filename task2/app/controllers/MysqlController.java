@@ -3,8 +3,6 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import data.MysqlClient;
-import play.api.db.Database;
-import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -76,6 +74,6 @@ public class MysqlController extends Controller {
 
     }
     public Result getCountry(){
-        return ok(mysqlClient.getCountry().toString());
+        return ok(mysqlClient.getCountryMap().toString());
     }
 }
