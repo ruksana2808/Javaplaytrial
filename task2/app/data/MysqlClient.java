@@ -12,7 +12,7 @@ public class MysqlClient {
 
     //    @Inject
 //    Database db;
-    public  MysqlClient() throws SQLException {
+    public MysqlClient() throws SQLException {
 //        Connection connection = db.getConnection();
         connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Student", "root", "password");
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM country");
@@ -26,16 +26,13 @@ public class MysqlClient {
         }
 
 
-
-
-
 //        System.out.println(country);
 
-        }
+    }
 
-        public Connection getConnection () {
-            return connection;
-        }
+    public Connection getConnection() {
+        return connection;
+    }
 
     public Map<Integer, String> getCountryMap() {
         return countryMap;
@@ -54,4 +51,4 @@ public class MysqlClient {
 //            }
 //            return country;
 //        }
-    }
+}
