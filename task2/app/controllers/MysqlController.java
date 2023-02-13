@@ -16,23 +16,44 @@ public class MysqlController extends Controller {
 
     @Inject
     private MysqlClient mysqlClient;
-    Map<Integer, String>  initialMap = new HashMap<>();
+
+    Map<Integer, String> mapOfCountries = new HashMap<>();
+
+    public Map<Integer, String> getMapOfCountries() {
+        return mapOfCountries;
+    }
+
+    public void setMapOfCountries(Map<Integer, String> mapOfCountries) {
+        this.mapOfCountries = mapOfCountries;
+    }
 
     public MysqlController() {
     }
 
+//    API to print list of countries stored in hashmap countryMap
+    public Result getCountry() {
+
+        return ok(mysqlClient.getCountryMap().toString());
+    }
+
+
+
+//    API to fetch data from db initialisation
+
+    public Result loadCountries() {
+        mapOfCountries = mysqlClient.getCountryMap();
+        setMapOfCountries(mapOfCountries);
+        System.out.println(mapOfCountries.size());
+        return ok("Countries fetched from dB and stored in hashMap");
+    }
+    public Result listOfCountries() {
+        System.out.println(getMapOfCountries());
+        return ok(getMapOfCountries().toString());
+    }
+
+
+
     public Result connectionSql() throws IOException, SQLException {
-//        PreparedStatement ps = mysqlClient.getConnection().prepareStatement("INSERT INTO student_details " +
-//                        "(id,name)" +
-//                        "VALUES (?, ?)",
-//                new String[]{"id"});
-//        ps.setInt(1, 6);
-//        ps.setString(2, "America");
-//        System.out.println(ps);
-//        ps.executeUpdate();
-//        System.out.println("Success");
-////        ps.close();
-//        return ok("success");
         return ok(mysqlClient.getConnection().toString());
 
     }
@@ -73,7 +94,5 @@ public class MysqlController extends Controller {
         }
 
     }
-    public Result getCountry(){
-        return ok(mysqlClient.getCountryMap().toString());
-    }
+
 }

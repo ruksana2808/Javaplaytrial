@@ -15,4 +15,5 @@ POST   /addData                            controllers.MysqlController.addData(r
 #POST    /addDocument    controllers.EsController.addDocument(request: Request)
 #POST    /createDocument    controllers.EsController.createDocument(request : Request)
 GET     /getCountry         controllers.MysqlController.getCountry()
-
+GET     /loadCountries      controllers.MysqlController.loadCountries()
+GET     /listOfCountries       controllers.MysqlController.listOfCountries()

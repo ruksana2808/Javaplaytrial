@@ -46,8 +46,6 @@ public class MysqlClient {
 //                int id = resultSet.getInt("id");
 //                String name = resultSet.getString("name");
 //                country.put(id, name);
-//
-//                // process the result
 //            }
 //            return country;
 //        }
