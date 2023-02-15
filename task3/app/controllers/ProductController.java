@@ -22,5 +22,8 @@ public class ProductController extends Controller {
         productService.addProduct(request);
         return ok("Data inserted");
     }
+    public Result getProduct (Http.Request request) throws IOException {
+        return ok(productService.getProduct(request));
+    }
 
 }

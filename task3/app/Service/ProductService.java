@@ -2,7 +2,10 @@ package Service;
 
 import Config.EsConnection;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
+import org.elasticsearch.action.get.GetRequest;
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.common.xcontent.XContentType;
@@ -27,13 +30,25 @@ public class ProductService {
         productJsonMap.put("product_id",productId);
         productJsonMap.put("product_name",productName);
         productJsonMap.put("spec_id",specId);
-        IndexRequest indexRequest = new IndexRequest("product","_doc").source(productJsonMap);
+        IndexRequest indexRequest = new IndexRequest("product","_doc",String.valueOf(productId)).source(productJsonMap);
         esConnection.getRestHighLevelClient().index(indexRequest, RequestOptions.DEFAULT);
         Map<String, Object> specJsonMap = new HashMap<>();
         specJsonMap.put("spec_id", specId);
         specJsonMap.put("spec_details", specDetails);
-        IndexRequest indexRequest1 = new IndexRequest("spec","_doc", "spec_id").source(specJsonMap);
+        IndexRequest indexRequest1 = new IndexRequest("spec","_doc", String.valueOf(specId)).source(specJsonMap);
         esConnection.getRestHighLevelClient().index(indexRequest1, RequestOptions.DEFAULT);
         return productId;
     }
+    public String getProduct(Http.Request request) throws IOException {
+        JsonNode body = request.body().asJson();
+        String index = body.get("index").asText();
+        String type = body.get("type").asText();
+        String id = body.get("id").asText();
+        GetRequest getRequest = new GetRequest(index, type, id);
+        GetResponse response = esConnection.getRestHighLevelClient().get(getRequest, RequestOptions.DEFAULT);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonString = objectMapper.writeValueAsString(response.getSource());
+        return jsonString;
+    }
+
 }
