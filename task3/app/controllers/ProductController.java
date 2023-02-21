@@ -5,6 +5,7 @@ import com.google.inject.Inject;
 import play.mvc.*;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  * This controller contains an action to handle HTTP requests
@@ -27,6 +28,13 @@ public class ProductController extends Controller {
 //    }
     public Result getProductById(Integer productId) throws IOException {
         return  ok(productService.getProductById(productId).toString());
+    }
+    public Result addProducToMysql(Http.Request request) throws SQLException {
+        productService.addProducToMysql(request);
+        return ok("Data inserted");
+    }
+    public Result getBySpecId(Integer specId) throws SQLException {
+        return ok(productService.getBySpecId(specId));
     }
 
 }
